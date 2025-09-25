@@ -101,6 +101,7 @@ Desktop.ini
 # Cursor AI Editor
 .cursor/
 .cursorignore
+.cursorrules
 
 # Temporary files
 *.tmp
