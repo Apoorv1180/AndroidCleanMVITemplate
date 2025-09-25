@@ -30,6 +30,14 @@
 - **VALIDATION**: Every build.gradle.kts must use `androidcleanmvitemplate.*` plugins
 - **CONSISTENCY**: Template must follow its own standards from day one
 
+### Convention Plugin Rules
+- **App Modules**: Use `androidcleanmvitemplate.android.application.compose`
+- **Library Modules**: Use `androidcleanmvitemplate.android.library.compose`
+- **Feature Modules**: Use `androidcleanmvitemplate.android.feature.ui`
+- **Room Modules**: Use `androidcleanmvitemplate.android.room`
+- **JVM Modules**: Use `androidcleanmvitemplate.jvm.library`
+- **Additional Plugins**: Only add Hilt, KSP, Serialization as needed
+
 ## Current Phase Rules (Phase 0)
 - **Focus**: Project setup and documentation structure only
 - **No Code**: Don't create any modules or complex code yet
@@ -63,18 +71,79 @@
 - **Phase 6**: Implement architecture patterns
 - **Phase 7**: Create feature examples and final documentation
 
-## Code Quality Standards
+## Development Standards
+
+### Code Style
+- Follow Kotlin coding conventions
+- Use meaningful variable and function names
+- Prefer immutable data classes
+- Use `val` over `var` when possible
+- Follow Clean Architecture principles
+
+### Architecture Rules
+- **UI Layer**: Root-Content pattern, Previews, ObserveAsEvents, No business logic
+- **Domain Layer**: UseCase pattern, Domain models, Repository interfaces, State management
+- **Data Layer**: Coroutines, Flow, Data source separation, Mapper organization
+
+### Compose Guidelines
+- Always include @Preview annotations with light/dark theme variants
+- Use Root-Content pattern with Scaffold
+- Implement proper parameter defaults and content slots
+- Break complex composables into smaller functions
+- Use Material Design 3 components
+
+### Code Quality Standards
 - **Clean Code**: Follow SOLID principles
 - **Documentation**: Every public API must be documented
 - **Testing**: Unit tests for business logic, integration tests for data layer
 - **Error Handling**: Comprehensive error handling with DataError sealed classes
 - **Type Safety**: Use sealed classes and proper type definitions
 
+### Testing
+- Write unit tests for business logic
+- Include UI tests for critical user flows
+- Use proper test naming conventions
+
+### Documentation
+- Include KDoc for public APIs
+- Update README.md for major changes
+- Document architectural decisions
+
+## File Organization
+- Keep related files together
+- Use proper package structure
+- Follow Android project conventions
+- Separate concerns properly
+
+## Dependencies
+- Use version catalog (libs.versions.toml)
+- Keep dependencies up to date
+- Prefer stable versions over alpha/beta
+- Document dependency choices
+
 ## Git Workflow
-- **Main Branch**: main (production-ready code)
-- **Development Branch**: development (integration branch)
-- **Feature Branches**: feature/phase-X-description
-- **Commit Messages**: Use conventional commits (feat:, docs:, fix:, etc.)
+- Use conventional commit messages: `type(scope): description`
+- Follow semantic versioning
+- Create feature branches from `development`
+- Use descriptive branch names: `feature/phase-X-description`
+
+## Performance
+- Use lazy loading where appropriate
+- Optimize Compose recomposition
+- Follow Android performance best practices
+- Profile and measure performance
+
+## Security
+- Never commit sensitive data
+- Use proper authentication patterns
+- Follow Android security guidelines
+- Validate user inputs
+
+## Error Handling
+- Use Result<T, DataError> wrapper
+- Implement proper error states
+- Provide meaningful error messages
+- Log errors appropriately
 
 ## Template Integrity
 - **Self-Consistency**: Template must demonstrate its own best practices
