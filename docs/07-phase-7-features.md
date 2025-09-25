@@ -17,6 +17,18 @@ This phase focuses on creating comprehensive feature examples and final document
 - [ ] Testing examples
 - [ ] Template finalization
 
+## Phase-Specific Checklist Items
+- [ ] **Compose Best Practices**: Root-Content pattern, Previews
+- [ ] **Material Design 3**: Theme system, Typography, Colors
+- [ ] **Performance Optimization**: Recomposition, Lazy loading
+- [ ] **Memory Management**: No memory leaks
+- [ ] **Security**: No hardcoded secrets, Input validation
+- [ ] **Privacy Compliance**: Minimal permissions, User consent
+- [ ] **Accessibility**: Content descriptions, Semantic labels
+- [ ] **Monitoring**: Crash reporting, Performance tracking
+
+*Reference: [Master Checklist](../CHECKLIST.md) items 13-16, 41-44, 57-64, 65-68, 69-72*
+
 ## Key Features
 - Sample feature implementation
 - Use case examples

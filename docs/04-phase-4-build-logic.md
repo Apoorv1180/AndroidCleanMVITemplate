@@ -17,6 +17,18 @@ This phase focuses on creating build logic and convention plugins to standardize
 - [ ] Plugin management setup
 - [ ] Reusable build configurations
 
+## Phase-Specific Checklist Items
+- [ ] **Convention Plugins**: Custom plugins for consistency
+- [ ] **Build Automation**: Automated builds
+- [ ] **Code Quality**: Automated code quality checks
+- [ ] **Function Size**: Small, focused functions
+- [ ] **Extension Functions**: For utility functions
+- [ ] **Null Safety**: Proper nullable/non-nullable types
+- [ ] **Immutability**: Prefer `val` over `var`
+- [ ] **Data Classes**: Use for state and data models
+
+*Reference: [Master Checklist](../CHECKLIST.md) items 49-52, 53-56, 13-16*
+
 ## Convention Plugins to Create
 - `androidcleanmvitemplate.android.application`
 - `androidcleanmvitemplate.android.application.compose`

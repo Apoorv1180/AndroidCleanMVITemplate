@@ -23,6 +23,13 @@
 - **Working Examples**: Every phase must have working, compilable code
 - **Phase-Safe**: Don't create modules until their respective phase
 
+## CRITICAL: Comprehensive Checklist Compliance
+- **MUST FOLLOW**: [CHECKLIST.md](docs/CHECKLIST.md) at every step
+- **Reference**: Always check checklist items before implementing any feature
+- **Validation**: Ensure all architectural rules are enforced
+- **Standards**: Follow the 72-item comprehensive checklist for all layers
+- **Phase-Specific**: Each phase has specific checklist items to complete
+
 ## CRITICAL: Convention Plugin Compliance
 - **MANDATORY**: ALL modules MUST use custom convention plugins
 - **NEVER**: Use standard Gradle plugins when custom plugins exist
