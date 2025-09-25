@@ -1,0 +1,83 @@
+# AndroidCleanMVITemplate - Cursor AI Rules
+
+## Project Context
+- **Project**: AndroidCleanMVITemplate
+- **Purpose**: Educational Android template demonstrating Clean Architecture + MVI pattern
+- **Current Phase**: Phase 0 - Project Foundation Setup
+- **Development Approach**: Phase-based development with documentation-first methodology
+
+## Phase-Based Development Structure
+- **Phase 0**: Project Foundation Setup (CURRENT)
+- **Phase 1**: Project Foundation & Planning
+- **Phase 2**: Module Strategy & Structure  
+- **Phase 3**: Gradle Management & Build System
+- **Phase 4**: Build Logic & Convention Plugins
+- **Phase 5**: Core Utilities & Infrastructure
+- **Phase 6**: Architecture Patterns Implementation
+- **Phase 7**: Feature Development & Examples
+
+## Development Philosophy
+- **Documentation-First**: Every decision must be documented before implementation
+- **Learning-Focused**: Code should teach best practices and patterns
+- **Progressive Complexity**: Build from simple to complex concepts
+- **Working Examples**: Every phase must have working, compilable code
+- **Phase-Safe**: Don't create modules until their respective phase
+
+## CRITICAL: Convention Plugin Compliance
+- **MANDATORY**: ALL modules MUST use custom convention plugins
+- **NEVER**: Use standard Gradle plugins when custom plugins exist
+- **ALWAYS**: Apply convention plugins first, then add specific plugins only
+- **VALIDATION**: Every build.gradle.kts must use `androidcleanmvitemplate.*` plugins
+- **CONSISTENCY**: Template must follow its own standards from day one
+
+## Current Phase Rules (Phase 0)
+- **Focus**: Project setup and documentation structure only
+- **No Code**: Don't create any modules or complex code yet
+- **Documentation Only**: Create comprehensive planning documentation
+- **Decision Records**: Document all architectural decisions
+- **Git Structure**: Set up proper branch structure for phase-based development
+
+## Technology Stack Decisions
+- **Architecture**: Clean Architecture + MVI (Model-View-Intent)
+- **UI Framework**: Jetpack Compose
+- **Dependency Injection**: Hilt
+- **Database**: Room
+- **Networking**: Retrofit + OkHttp
+- **Async**: Kotlin Coroutines + Flow
+- **Build System**: Gradle with Convention Plugins
+- **Language**: Kotlin 2.0+
+
+## Project Naming Convention
+- **Project Name**: AndroidCleanMVITemplate
+- **Package Name**: com.androidcleanmvitemplate
+- **Plugin IDs**: androidcleanmvitemplate.*
+- **Module Names**: Use descriptive names (core:domain, core:data, etc.)
+
+## Phase Safety Rules
+- **Phase 0**: Only documentation and project setup
+- **Phase 1**: Documentation and planning only
+- **Phase 2**: Create module structure and basic configuration
+- **Phase 3**: Set up Gradle management and build system
+- **Phase 4**: Create build logic and convention plugins
+- **Phase 5**: Implement core utilities and infrastructure
+- **Phase 6**: Implement architecture patterns
+- **Phase 7**: Create feature examples and final documentation
+
+## Code Quality Standards
+- **Clean Code**: Follow SOLID principles
+- **Documentation**: Every public API must be documented
+- **Testing**: Unit tests for business logic, integration tests for data layer
+- **Error Handling**: Comprehensive error handling with DataError sealed classes
+- **Type Safety**: Use sealed classes and proper type definitions
+
+## Git Workflow
+- **Main Branch**: main (production-ready code)
+- **Development Branch**: development (integration branch)
+- **Feature Branches**: feature/phase-X-description
+- **Commit Messages**: Use conventional commits (feat:, docs:, fix:, etc.)
+
+## Template Integrity
+- **Self-Consistency**: Template must demonstrate its own best practices
+- **User Trust**: Violating own standards undermines template credibility
+- **Learning Value**: Users must see proper patterns in action
+- **Quality Assurance**: Template quality reflects our development standards
