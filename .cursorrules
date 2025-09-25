@@ -134,6 +134,13 @@
 - Create feature branches from `development`
 - Use descriptive branch names: `feature/phase-X-description`
 
+## CRITICAL: Git Push Rules
+- **NEVER PUSH** without explicit user confirmation
+- **ALWAYS ASK** before pushing any changes to remote
+- **CONFIRM WORKING STATE** before suggesting push
+- **USER APPROVAL REQUIRED** for all remote operations
+- **LOCAL COMMITS ONLY** unless explicitly approved
+
 ## Performance
 - Use lazy loading where appropriate
 - Optimize Compose recomposition
