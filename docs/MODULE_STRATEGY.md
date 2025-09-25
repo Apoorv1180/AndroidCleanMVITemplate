@@ -14,6 +14,9 @@ This document defines our module strategy, modularization approach, and how we b
 
 ## 🏗️ **Module Architecture**
 
+### **Industry Reference: Now in Android**
+Google's official "Now in Android" sample app demonstrates the exact modular approach we're implementing ([GitHub Repository](https://github.com/android/nowinandroid)). It splits code into feature modules and core libraries, using Gradle convention plugins to apply common setup to each module. This encourages low coupling: feature modules don't see each other's internals, only the core abstractions they depend on.
+
 ### **High-Level Structure**
 ```
 AndroidCleanMVITemplate/

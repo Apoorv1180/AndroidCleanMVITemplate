@@ -19,6 +19,8 @@ We will use **Clean Architecture** combined with **MVI (Model-View-Intent)** pat
 - **Clean Architecture** is widely adopted in enterprise Android development
 - **MVI** provides better state management than traditional MVVM
 - Combination offers superior testability and maintainability
+- **Google's Official Guidance**: Encourages "layered, reactive UDF designs for robust apps" ([Android Documentation](https://developer.android.com/topic/architecture))
+- **Industry Consensus**: "MVI's predictability and structure outweigh its complexity for scalable projects" ([Medium Analysis](https://medium.com/@ronaldoaraujo/clean-architecture-and-mvi-android))
 
 #### **2. Educational Value**
 - Demonstrates modern Android development practices
@@ -26,10 +28,11 @@ We will use **Clean Architecture** combined with **MVI (Model-View-Intent)** pat
 - Enables incremental learning from simple to complex concepts
 
 #### **3. Technical Benefits**
-- **Unidirectional Data Flow**: State flows down, actions flow up
+- **Unidirectional Data Flow**: "State flows in only one direction" making bugs easier to debug and state consistent ([Android Documentation](https://developer.android.com/jetpack/guide/ui-layer/stateholders))
 - **Predictable State Management**: Easier to debug and test
 - **Better Testability**: Clear boundaries between layers
 - **Scalability**: Supports team collaboration and parallel development
+- **Immutable State**: MVI's reactive, immutable state model aligns perfectly with Clean Architecture's layers ([Medium Analysis](https://medium.com/@ronaldoaraujo/clean-architecture-and-mvi-android))
 
 #### **4. Learning Progression**
 - **Beginner**: Can understand basic concepts
@@ -80,6 +83,8 @@ We will use the following technology stack:
 - All technologies are officially supported by Google
 - Long-term stability and support guaranteed
 - Regular updates and improvements
+- **Kotlin Adoption**: "Over 60% of professional Android developers use Kotlin" ([Android Documentation](https://developer.android.com/kotlin))
+- **Crash Reduction**: "Android apps using Kotlin are 20% less likely to crash" ([Android Documentation](https://developer.android.com/kotlin))
 
 #### **2. Industry Standards**
 - **Kotlin**: Primary language for Android development
@@ -94,9 +99,10 @@ We will use the following technology stack:
 
 #### **4. Performance & Maintainability**
 - **Kotlin**: Null safety, coroutines, modern language features
-- **Compose**: Declarative UI, better performance
-- **Hilt**: Compile-time dependency injection
-- **Room**: Type-safe database access
+- **Compose**: "Up to 50% less UI code" compared to XML, declarative UI, better performance ([Android Documentation](https://developer.android.com/jetpack/compose/why-adopt))
+- **Hilt**: Compile-time dependency injection, built on Dagger with simplified setup ([Android Documentation](https://developer.android.com/training/dependency-injection/hilt-android))
+- **Room**: Type-safe database access, compile-time query checks ([Android Documentation](https://developer.android.com/training/data-storage/room))
+- **Coroutines**: Seamless integration with lifecycle-aware components ([Android Documentation](https://developer.android.com/kotlin/coroutines))
 
 ### **Alternatives Considered**
 
