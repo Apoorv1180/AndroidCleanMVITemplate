@@ -29,77 +29,62 @@ This document outlines the detailed planning for Phase 2: Module Strategy & Stru
 ### **Step 1: Create Core Module Structure**
 **Duration**: 2-3 days
 **Deliverables**:
-- [ ] `core:domain` module created
-- [ ] `core:data` module created
-- [ ] `core:presentation` module created
-- [ ] `core:database` module created
-- [ ] `core:networking` module created
+- [ ] `core:domain` module created (Kotlin Library)
+- [ ] `core:data` module created (Android Library)
+- [ ] `core:presentation` module created (Android Library)
+- [ ] `core:presentation:designsystem` module created (Android Library)
+- [ ] `core:presentation:ui` module created (Android Library)
+- [ ] `core:database` module created (Android Library)
+- [ ] `core:networking` module created (Android Library)
 
 **Implementation Details**:
-```
-core/
-├── domain/
-│   ├── build.gradle.kts
-│   └── src/main/kotlin/com/androidcleanmvitemplate/core/domain/
-├── data/
-│   ├── build.gradle.kts
-│   └── src/main/kotlin/com/androidcleanmvitemplate/core/data/
-├── presentation/
-│   ├── build.gradle.kts
-│   └── src/main/kotlin/com/androidcleanmvitemplate/core/presentation/
-├── database/
-│   ├── build.gradle.kts
-│   └── src/main/kotlin/com/androidcleanmvitemplate/core/database/
-└── networking/
-    ├── build.gradle.kts
-    └── src/main/kotlin/com/androidcleanmvitemplate/core/networking/
-```
+- **Use Android Studio's "New Module" wizard** - not manual directory creation
+- **Choose correct module types**:
+  - **Kotlin Library** for `core:domain` (pure Kotlin, no Android dependencies)
+  - **Android Library** for all other modules
+- **Set proper package names** for each module:
+  - `com.androidcleanmvitemplate.core.domain`
+  - `com.androidcleanmvitemplate.core.data`
+  - `com.androidcleanmvitemplate.core.presentation`
+  - `com.androidcleanmvitemplate.core.presentation.designsystem`
+  - `com.androidcleanmvitemplate.core.presentation.ui`
+  - `com.androidcleanmvitemplate.core.database`
+  - `com.androidcleanmvitemplate.core.networking`
+- **Let Gradle sync** after each module creation
 
 ### **Step 2: Configure Module Dependencies**
 **Duration**: 1-2 days
 **Deliverables**:
-- [ ] Module dependencies configured
-- [ ] Build system updated
-- [ ] Settings.gradle.kts updated
+- [ ] Module dependencies configured using `implementation project()`
+- [ ] Type-safe project accessors enabled
+- [ ] Clean Architecture dependency rules followed
 
-**Dependency Graph**:
-```
-app
-├── core:presentation
-├── core:data
-└── core:domain
+**Dependency Rules**:
+- **Domain modules**: Can't depend on other modules
+- **Data modules**: Can depend on domain and other data modules
+- **Presentation modules**: Can depend on domain and data modules
+- **App module**: Can depend on all modules (glues everything together)
 
-core:presentation
-├── core:domain
-└── core:data
-
-core:data
-├── core:domain
-├── core:database
-└── core:networking
-
-core:database
-└── core:domain
-
-core:networking
-└── core:domain
-```
+**Implementation Details**:
+- Use `implementation project(":core:domain")` for module references
+- Enable type-safe project accessors in `settings.gradle.kts`
+- Follow Clean Architecture dependency flow: UI → Domain ← Data
 
 ### **Step 3: Implement Basic Examples**
 **Duration**: 3-4 days
 **Deliverables**:
-- [ ] Simple domain entities
-- [ ] Basic use cases
+- [ ] Simple domain entities (User, Sample)
+- [ ] Basic use cases (GetUserUseCase, GetAllSamplesUseCase)
 - [ ] Repository interfaces
 - [ ] Simple ViewModels
 - [ ] Basic UI components
 
 **Example Implementation**:
-- **Domain**: `User`, `UserRepository`, `GetUserUseCase`
-- **Data**: `UserRepositoryImpl`, `UserDataSource`
-- **Presentation**: `UserViewModel`, `UserScreen`
-- **Database**: `UserEntity`, `UserDao`
-- **Networking**: `UserApi`, `UserDto`
+- **Domain**: `User`, `Sample`, `UserRepository`, `SampleRepository`, `GetUserUseCase`, `GetAllSamplesUseCase`
+- **Data**: `UserRepositoryImpl`, `SampleRepositoryImpl`, `UserDataSource`, `SampleDataSource`
+- **Presentation**: `UserViewModel`, `SampleViewModel`, `UserScreen`, `SampleScreen`
+- **Database**: `UserEntity`, `SampleEntity`, `UserDao`, `SampleDao`
+- **Networking**: `UserApi`, `SampleApi`, `UserDto`, `SampleDto`
 
 ### **Step 4: Establish Module Boundaries**
 **Duration**: 1-2 days
@@ -109,44 +94,78 @@ core:networking
 - [ ] Module documentation
 - [ ] Examples of proper usage
 
+**Package Structure**:
+```
+core/domain/src/main/kotlin/com/androidcleanmvitemplate/core/domain/
+├── entities/
+├── repositories/
+├── usecases/
+└── exceptions/
+
+core/data/src/main/kotlin/com/androidcleanmvitemplate/core/data/
+├── repositories/
+├── datasources/
+└── mappers/
+
+core/presentation/src/main/kotlin/com/androidcleanmvitemplate/core/presentation/
+├── viewmodels/
+├── ui/
+└── events/
+
+core/database/src/main/kotlin/com/androidcleanmvitemplate/core/database/
+├── entities/
+├── daos/
+└── database/
+
+core/networking/src/main/kotlin/com/androidcleanmvitemplate/core/networking/
+├── api/
+├── dto/
+└── interceptors/
+```
+
 ## 📊 **Detailed Implementation Steps**
 
 ### **Day 1: Module Creation**
-1. **Create Module Directories**
-   - Set up folder structure
-   - Create basic build.gradle.kts files
-   - Update settings.gradle.kts
+1. **Use Android Studio's "New Module" wizard**
+   - Right-click on root project → New Module
+   - Choose appropriate module type (Kotlin Library for domain, Android Library for others)
+   - Set proper package names
+   - Let Gradle sync after each creation
 
-2. **Configure Basic Dependencies**
-   - Add Kotlin dependencies
-   - Set up Android configurations
-   - Configure compile options
+2. **Create modules in order**:
+   - `core:domain` (Kotlin Library)
+   - `core:data` (Android Library)
+   - `core:presentation` (Android Library)
+   - `core:presentation:designsystem` (Android Library)
+   - `core:presentation:ui` (Android Library)
+   - `core:database` (Android Library)
+   - `core:networking` (Android Library)
 
 ### **Day 2: Domain Module**
 1. **Create Domain Entities**
-   - Simple data classes
+   - Simple data classes (`User`, `Sample`)
    - Basic business models
    - Domain-specific exceptions
 
 2. **Implement Use Cases**
-   - Basic use case interfaces
+   - Basic use case interfaces (`GetUserUseCase`, `GetAllSamplesUseCase`)
    - Simple business logic
    - Error handling
 
 3. **Define Repository Interfaces**
-   - Data access contracts
+   - Data access contracts (`UserRepository`, `SampleRepository`)
    - Business logic interfaces
    - Dependency inversion
 
 ### **Day 3: Data Module**
 1. **Implement Repository**
-   - Repository implementation
-   - Data source interfaces
+   - Repository implementation (`UserRepositoryImpl`, `SampleRepositoryImpl`)
+   - Data source interfaces (`UserDataSource`, `SampleDataSource`)
    - Data mapping
 
 2. **Create Data Sources**
-   - Local data source
-   - Remote data source
+   - Local data source (Room database)
+   - Remote data source (Retrofit API)
    - Data synchronization
 
 3. **Add Dependencies**
@@ -156,12 +175,12 @@ core:networking
 
 ### **Day 4: Presentation Module**
 1. **Create ViewModels**
-   - Basic ViewModel structure
-   - State management
+   - Basic ViewModel structure (`UserViewModel`, `SampleViewModel`)
+   - State management (MVI pattern)
    - Action handling
 
 2. **Implement UI Components**
-   - Simple Compose screens
+   - Simple Compose screens (`UserScreen`, `SampleScreen`)
    - State observation
    - User interaction handling
 
@@ -172,13 +191,13 @@ core:networking
 
 ### **Day 5: Database & Networking**
 1. **Database Module**
-   - Room entities
-   - DAO interfaces
+   - Room entities (`UserEntity`, `SampleEntity`)
+   - DAO interfaces (`UserDao`, `SampleDao`)
    - Database configuration
 
 2. **Networking Module**
-   - API service interfaces
-   - DTOs and models
+   - API service interfaces (`UserApi`, `SampleApi`)
+   - DTOs and models (`UserDto`, `SampleDto`)
    - Network configuration
 
 3. **Integration**
@@ -190,10 +209,11 @@ core:networking
 
 ### **Technical Success**
 - [ ] All modules compile successfully
-- [ ] Dependencies are properly configured
+- [ ] Dependencies are properly configured using `implementation project()`
 - [ ] Basic examples work end-to-end
 - [ ] No circular dependencies
 - [ ] Clean Architecture principles followed
+- [ ] Type-safe project accessors enabled
 
 ### **Educational Success**
 - [ ] Clear module structure
@@ -218,11 +238,12 @@ core:networking
 4. **Learning Curve**: Too steep for beginners
 
 ### **Mitigation Strategies**
-1. **Incremental Approach**: Build modules one at a time
+1. **Incremental Approach**: Build modules one at a time using Android Studio wizard
 2. **Clear Documentation**: Explain each step
 3. **Simple Examples**: Start with basic functionality
 4. **Regular Testing**: Test after each step
 5. **Community Feedback**: Get input from users
+6. **Use Android Studio Tools**: Leverage built-in module creation wizard
 
 ## 🚀 **Next Phase Preparation**
 
@@ -234,55 +255,62 @@ core:networking
 - [ ] Documentation complete
 
 ### **Phase 3 Dependencies**
-- [ ] Gradle configuration
-- [ ] Build system setup
+- [ ] Version catalog setup (`libs.versions.toml`)
 - [ ] Dependency management
-- [ ] Version catalog
+- [ ] Module dependency configuration
+- [ ] Type-safe project accessors
 - [ ] Build optimization
 
 ## 📚 **Learning Resources**
 
 ### **Documentation**
-- [Module Strategy](../MODULE_STRATEGY.md)
-- [Architecture Decisions](../ARCHITECTURE_DECISIONS.md)
-- [Development Standards](../DEVELOPMENT_STANDARDS.md)
-- [Master Checklist](../CHECKLIST.md)
+- [Module Strategy](../03-phase-1-module-strategy.md)
+- [Architecture Decisions](../02-phase-1-architecture-decisions.md)
+- [Development Standards](../04-phase-1-development-standards.md)
+- [Master Checklist](../05-phase-1-checklist.md)
 
 ### **External Resources**
 - [Android Documentation](https://developer.android.com/guide)
 - [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [MVI Pattern](https://developer.android.com/jetpack/guide/ui-layer/stateholders)
 - [Gradle Documentation](https://docs.gradle.org/current/userguide/userguide.html)
+- [Philipp Lackner's Module Creation Tutorial](https://www.youtube.com/@PhilippLackner)
 
 ## 📋 **Phase 2 Checklist**
 
 ### **Module Creation**
-- [ ] Create core module directories
-- [ ] Set up build.gradle.kts files
-- [ ] Update settings.gradle.kts
-- [ ] Configure basic dependencies
+- [ ] Use Android Studio's "New Module" wizard
+- [ ] Create `core:domain` module (Kotlin Library)
+- [ ] Create `core:data` module (Android Library)
+- [ ] Create `core:presentation` module (Android Library)
+- [ ] Create `core:presentation:designsystem` module (Android Library)
+- [ ] Create `core:presentation:ui` module (Android Library)
+- [ ] Create `core:database` module (Android Library)
+- [ ] Create `core:networking` module (Android Library)
+- [ ] Set proper package names for each module
+- [ ] Let Gradle sync after each creation
 
 ### **Domain Module**
-- [ ] Create domain entities
-- [ ] Implement use cases
-- [ ] Define repository interfaces
+- [ ] Create domain entities (`User`, `Sample`)
+- [ ] Implement use cases (`GetUserUseCase`, `GetAllSamplesUseCase`)
+- [ ] Define repository interfaces (`UserRepository`, `SampleRepository`)
 - [ ] Add domain-specific exceptions
 
 ### **Data Module**
-- [ ] Implement repository
-- [ ] Create data sources
+- [ ] Implement repository (`UserRepositoryImpl`, `SampleRepositoryImpl`)
+- [ ] Create data sources (`UserDataSource`, `SampleDataSource`)
 - [ ] Add data mapping
 - [ ] Configure dependencies
 
 ### **Presentation Module**
-- [ ] Create ViewModels
-- [ ] Implement UI components
+- [ ] Create ViewModels (`UserViewModel`, `SampleViewModel`)
+- [ ] Implement UI components (`UserScreen`, `SampleScreen`)
 - [ ] Add navigation
 - [ ] Handle user interactions
 
 ### **Database & Networking**
-- [ ] Create database entities
-- [ ] Implement API services
+- [ ] Create database entities (`UserEntity`, `SampleEntity`)
+- [ ] Implement API services (`UserApi`, `SampleApi`)
 - [ ] Configure networking
 - [ ] Test integration
 
@@ -304,4 +332,4 @@ core:networking
 
 **Phase 2 is now fully planned and ready for implementation. The detailed steps, success criteria, and risk mitigation strategies are in place to ensure a successful module structure implementation.**
 
-**Next Step**: Begin Phase 2 implementation with module creation.
+**Next Step**: Use Android Studio's "New Module" wizard to create modules properly, following the step-by-step approach outlined in this document.
