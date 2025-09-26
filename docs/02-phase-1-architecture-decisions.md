@@ -4,7 +4,7 @@
 
 This document records the key architectural decisions made for AndroidCleanMVITemplate, including the rationale behind each choice and the context that led to these decisions.
 
-## 🎯 **ADR-001: Clean Architecture + MVI Pattern**
+## 🎯 **ADR-001: Clean Architecture + MVI Pattern** {#adr-001}
 
 ### **Status**: ✅ Accepted
 ### **Date**: 2024-09-26
@@ -21,6 +21,10 @@ We will use **Clean Architecture** combined with **MVI (Model-View-Intent)** pat
 - Combination offers superior testability and maintainability
 - **Google's Official Guidance**: Encourages "layered, reactive UDF designs for robust apps" ([Android Documentation](https://developer.android.com/topic/architecture))
 - **Industry Consensus**: "MVI's predictability and structure outweigh its complexity for scalable projects" ([Medium Analysis](https://medium.com/@ronaldoaraujo/clean-architecture-and-mvi-android))
+- **Philipp Lackner's Approach**: Demonstrates Clean Architecture + MVI in real-world projects ([YouTube Channel](https://www.youtube.com/@PhilippLackner))
+- **State Management Best Practices**: Root-Content pattern for UI state management ([Jetpack Compose Masterclass](https://github.com/philipplackner/JetpackComposeMasterclass/tree/3-StateManagement/StateManagementRealWorld))
+- **Community Adoption**: 40+ stars on Philipp Lackner's Jetpack Compose Masterclass repository
+- **Educational Value**: Proven approach for teaching modern Android development patterns
 
 #### **2. Educational Value**
 - Demonstrates modern Android development practices
@@ -35,9 +39,21 @@ We will use **Clean Architecture** combined with **MVI (Model-View-Intent)** pat
 - **Immutable State**: MVI's reactive, immutable state model aligns perfectly with Clean Architecture's layers ([Medium Analysis](https://medium.com/@ronaldoaraujo/clean-architecture-and-mvi-android))
 
 #### **4. Learning Progression**
-- **Beginner**: Can understand basic concepts
-- **Intermediate**: Can implement and extend patterns
-- **Advanced**: Can optimize and contribute to best practices
+- **Beginner Level**: 
+  - **Concepts**: Understanding Clean Architecture layers (UI → Domain ← Data)
+  - **Implementation**: Creating simple ViewModels with state management
+  - **Why**: Establishes foundation for separation of concerns
+  - **Application**: Building basic screens with proper state handling
+- **Intermediate Level**:
+  - **Concepts**: Implementing MVI pattern with Actions, States, and Events
+  - **Implementation**: Creating use cases and repository patterns
+  - **Why**: Enables predictable state management and testability
+  - **Application**: Building complex features with proper data flow
+- **Advanced Level**:
+  - **Concepts**: Optimizing architecture for performance and scalability
+  - **Implementation**: Creating convention plugins and build optimization
+  - **Why**: Prepares for production-level applications
+  - **Application**: Contributing to architectural improvements and best practices
 
 ### **Alternatives Considered**
 
@@ -60,7 +76,7 @@ We will use **Clean Architecture** combined with **MVI (Model-View-Intent)** pat
 
 ---
 
-## 🎯 **ADR-002: Technology Stack Selection**
+## 🎯 **ADR-002: Technology Stack Selection** {#adr-002}
 
 ### **Status**: ✅ Accepted
 ### **Date**: 2024-09-26
@@ -76,6 +92,14 @@ We will use the following technology stack:
 - **Networking**: Retrofit + OkHttp
 - **Async**: Kotlin Coroutines + Flow
 - **Build System**: Gradle with Convention Plugins
+- **Multi-Module Architecture**: Feature-based and layer-based modules
+- **State Management**: MVI pattern with Root-Content pattern
+- **Navigation**: Compose Navigation with type-safe routes
+- **Image Loading**: Coil for efficient image loading
+- **Serialization**: Kotlinx Serialization
+- **Testing**: JUnit, Mockk, Compose Testing
+- **Code Quality**: Ktlint, Detekt
+- **Build Optimization**: Gradle Build Cache, Parallel Execution
 
 ### **Rationale**
 
@@ -85,17 +109,28 @@ We will use the following technology stack:
 - Regular updates and improvements
 - **Kotlin Adoption**: "Over 60% of professional Android developers use Kotlin" ([Android Documentation](https://developer.android.com/kotlin))
 - **Crash Reduction**: "Android apps using Kotlin are 20% less likely to crash" ([Android Documentation](https://developer.android.com/kotlin))
+- **Compose Benefits**: "Up to 50% less UI code" compared to XML, declarative UI, better performance ([Android Documentation](https://developer.android.com/jetpack/compose/why-adopt))
+- **Hilt Advantages**: Compile-time dependency injection, built on Dagger with simplified setup ([Android Documentation](https://developer.android.com/training/dependency-injection/hilt-android))
+- **Room Benefits**: Type-safe database access, compile-time query checks ([Android Documentation](https://developer.android.com/training/data-storage/room))
+- **Coroutines Integration**: Seamless integration with lifecycle-aware components ([Android Documentation](https://developer.android.com/kotlin/coroutines))
 
 #### **2. Industry Standards**
 - **Kotlin**: Primary language for Android development
 - **Jetpack Compose**: Modern UI toolkit
 - **Hilt**: Recommended dependency injection framework
 - **Room**: Official database solution
+- **Multi-Module Architecture**: Industry standard for scalable applications
+- **Convention Plugins**: Best practice for build system management
+- **State Management**: MVI pattern widely adopted for complex applications
+- **Testing Strategy**: Comprehensive testing approach for production apps
 
 #### **3. Learning Value**
 - Technologies represent current best practices
 - Skills transferable to real-world projects
 - Comprehensive documentation available
+- **Philipp Lackner's Educational Content**: Proven teaching methodology ([YouTube Channel](https://www.youtube.com/@PhilippLackner))
+- **Community Resources**: Extensive GitHub repositories and tutorials
+- **Progressive Learning**: From basic concepts to advanced patterns
 
 #### **4. Performance & Maintainability**
 - **Kotlin**: Null safety, coroutines, modern language features
@@ -103,6 +138,10 @@ We will use the following technology stack:
 - **Hilt**: Compile-time dependency injection, built on Dagger with simplified setup ([Android Documentation](https://developer.android.com/training/dependency-injection/hilt-android))
 - **Room**: Type-safe database access, compile-time query checks ([Android Documentation](https://developer.android.com/training/data-storage/room))
 - **Coroutines**: Seamless integration with lifecycle-aware components ([Android Documentation](https://developer.android.com/kotlin/coroutines))
+- **Multi-Module Benefits**: Faster build times, better code organization, parallel development
+- **Convention Plugins**: Reduced build configuration duplication, consistent standards
+- **State Management**: Predictable state updates, easier debugging and testing
+- **Build Optimization**: Gradle build cache, parallel execution, incremental builds
 
 ### **Alternatives Considered**
 
@@ -132,42 +171,93 @@ We will use the following technology stack:
 ### **Context**: Need to define module organization strategy
 
 ### **Decision**
-We will use a **core + feature** module strategy with the following structure:
+We will use a **hybrid core + feature** module strategy with the following structure:
 
 ```
 AndroidCleanMVITemplate/
-├── app/                          # Main application module
-├── core/                         # Core modules
-│   ├── domain/                   # Domain layer (entities, use cases)
-│   ├── data/                     # Data layer (repositories, data sources)
-│   ├── presentation/             # Presentation layer (ViewModels, UI)
-│   ├── database/                 # Database layer (Room entities, DAOs)
-│   └── networking/               # Networking layer (API services, DTOs)
+├── app/                          # android.application.compose
 ├── build-logic/                  # Convention plugins
-└── gradle/                       # Gradle configuration
+│   └── convention/
+│       ├── src/main/java/        # Convention plugins
+│       └── src/test/             # Test for convention plugins
+├── core/                         # Core shared modules
+│   ├── database/                 # android.library + android.room
+│   ├── domain/                   # jvm.library (domain + util)
+│   ├── data/                     # android.library (repositories, network, storage)
+│   └── presentation/
+│       ├── designsystem/         # android.library
+│       └── ui/                   # android.library
+├── auth/                         # Feature module (SAMPLE - demonstrates structure)
+│   ├── data/                     # android.library
+│   ├── domain/                   # jvm.library
+│   └── presentation/             # android.feature.ui
+├── analytics/                    # Future analytics feature
+│   ├── data/                     # android.library
+│   ├── domain/                   # jvm.library
+│   └── presentation/             # android.feature.ui
+└── sonar/                        # Future code quality (SonarQube)
+    └── (structure to be defined)
 ```
 
 ### **Rationale**
 
-#### **1. Clean Architecture Compliance**
+#### **1. Educational Progression Strategy**
+- **Phase 2-6**: Layer-based core modules for learning architectural concepts
+  - **Why**: Establishes understanding of Clean Architecture layers
+  - **How**: Each phase builds upon previous concepts
+  - **Application**: Developers learn separation of concerns progressively
+- **Phase 7**: Feature-based modules to show real-world application
+  - **Why**: Demonstrates industry-standard modularization
+  - **How**: Transitions from layers to business features
+  - **Application**: Prepares developers for production environments
+- **Hybrid Approach**: Combines educational simplicity with production relevance
+  - **Why**: Balances learning curve with real-world applicability
+  - **How**: Starts simple, evolves to complex
+  - **Application**: Gradual skill development
+- **Learning Evolution**: Demonstrates progression from layers to features
+  - **Why**: Shows architectural maturity path
+  - **How**: Incremental complexity increase
+  - **Application**: Career progression preparation
+
+#### **2. Clean Architecture Compliance**
 - Clear separation between layers
 - Dependencies point inward (UI → Domain ← Data)
 - Domain layer is pure Kotlin (no Android dependencies)
+- **Core Infrastructure**: Essential modules for Clean Architecture implementation
+- **Module Strategy**: Detailed in [03-phase-1-module-strategy.md](03-phase-1-module-strategy.md)
+- **Dependency Management**: Proper dependency inversion principles
+- **Testability**: Each layer can be tested independently
+- **Maintainability**: Changes in one layer don't affect others
 
-#### **2. Educational Value**
+#### **3. Educational Value**
 - Demonstrates proper modularization
 - Shows dependency management
 - Enables incremental learning
+- **Real-World Relevance**: Based on industry best practices
+- **Industry Alignment**: Feature-based modularization is industry standard
+- **Development Standards**: Detailed in [04-phase-1-development-standards.md](04-phase-1-development-standards.md)
+- **Quality Assurance**: Comprehensive checklist for quality control
+- **Learning Resources**: Extensive reference library for continued learning
 
-#### **3. Scalability**
+#### **4. Scalability**
 - Supports team collaboration
 - Enables parallel development
 - Facilitates code reuse
+- **Production-Ready**: Based on proven architectural patterns
+- **Future-Proof**: Can evolve from educational to production structure
+- **Convention Plugins**: Standardized build configurations across modules
+- **Build Optimization**: Faster build times with proper module structure
+- **Team Development**: Clear module boundaries enable parallel work
 
-#### **4. Maintainability**
+#### **5. Maintainability**
 - Clear boundaries between concerns
 - Easier to test and debug
 - Better code organization
+- **Proven Patterns**: Based on successful architectural approaches
+- **Documentation**: Comprehensive analysis and rationale available
+- **Code Quality**: Automated quality checks and standards
+- **Refactoring**: Easy to refactor individual modules
+- **Debugging**: Clear separation makes issues easier to isolate
 
 ### **Alternatives Considered**
 
@@ -175,22 +265,42 @@ AndroidCleanMVITemplate/
 - **Pros**: Simpler to understand
 - **Cons**: Violates Clean Architecture principles
 
-#### **Feature-Based Modules**
-- **Pros**: Business logic organization
-- **Cons**: More complex for educational purposes
+#### **Pure Feature-Based Modules**
+- **Pros**: Business logic organization, industry standard
+- **Cons**: More complex for educational purposes, steeper learning curve
+- **Analysis**: Production apps use 20+ modules with feature-based organization
+- **Decision**: Too complex for Phase 2-6, but valuable for Phase 7
 
-#### **Layer-Based Modules**
+#### **Pure Layer-Based Modules**
 - **Pros**: Clear architectural boundaries
 - **Cons**: May not scale well for large projects
+- **Analysis**: Our original approach was purely layer-based
+- **Decision**: Good for learning but lacks real-world relevance
+
+#### **Hybrid Approach (Chosen)**
+- **Pros**: Combines educational simplicity with production relevance
+- **Cons**: More complex than pure layer-based
+- **Analysis**: Based on comprehensive architectural research
+- **Decision**: Best balance for educational template
 
 ### **Consequences**
-- **Positive**: Better code organization, improved testability
-- **Negative**: More complex project structure
-- **Mitigation**: Comprehensive documentation and examples
+- **Positive**: Better code organization, improved testability, real-world relevance
+- **Negative**: More complex project structure, steeper learning curve
+- **Mitigation**: Comprehensive documentation, examples, and phase-based progression
+
+### **Research Foundation**
+This decision is based on comprehensive analysis of industry best practices and architectural patterns. The module structure is inspired by modern Android development practices demonstrated by [Philipp Lackner](https://www.youtube.com/@PhilippLackner) and balances educational simplicity with production relevance.
+
+**Key References**:
+- [Philipp Lackner's Jetpack Compose Masterclass](https://github.com/philipplackner/JetpackComposeMasterclass/tree/3-StateManagement/StateManagementRealWorld)
+- [Google's Now in Android](https://github.com/android/nowinandroid) - Official Android sample app
+- [Clean Architecture Principles](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [Android Architecture Guide](https://developer.android.com/topic/architecture)
+- [MVI Pattern Benefits](https://medium.com/@ronaldoaraujo/clean-architecture-and-mvi-android)
 
 ---
 
-## 🎯 **ADR-004: Build System Strategy**
+## 🎯 **ADR-004: Build System Strategy** {#adr-004}
 
 ### **Status**: ✅ Accepted
 ### **Date**: 2024-09-26
@@ -316,5 +426,11 @@ We will implement a **comprehensive quality assurance system** with:
 3. **Implement ADR-003**: Create module structure
 4. **Implement ADR-004**: Configure build system
 5. **Implement ADR-005**: Establish quality gates
+
+## 🚀 **Continue Reading**
+
+**Next Document**: [03-phase-1-module-strategy.md](03-phase-1-module-strategy.md) - Learn about our module organization strategy and dependency structure.
+
+**Reading Flow**: Vision → Architecture Decisions → Module Strategy → Development Standards → Foundation → Implementation
 
 **These ADRs will guide all subsequent development decisions and ensure consistency across the project.**

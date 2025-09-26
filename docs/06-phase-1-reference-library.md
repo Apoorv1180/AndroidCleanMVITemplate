@@ -19,10 +19,14 @@ This document provides a comprehensive collection of references, learning resour
 - **Architecture Patterns Comparison**: [GeeksforGeeks - MVC, MVP, MVVM, and MVI](https://www.geeksforgeeks.org/mvc-mvp-mvvm-and-mvi-architectural-pattern-in-android)
 - **Google's Architecture Guide**: [Android - Guide to app architecture](https://developer.android.com/topic/architecture)
 - **When NOT to use Clean Architecture**: [ProAndroidDev - Clean Architecture on Android](https://proandroiddev.com/clean-architecture-on-android-when-not-to-use-it-8aa11e54b7d9)
+- **Philipp Lackner's Clean Architecture Series**: [YouTube - Clean Architecture Tutorial](https://www.youtube.com/@PhilippLackner)
+- **Philipp Lackner's MVI Implementation**: [GitHub - Jetpack Compose Masterclass](https://github.com/philipplackner/JetpackComposeMasterclass/tree/3-StateManagement/StateManagementRealWorld)
 
 ### **Unidirectional Data Flow (UDF)**
 - **Android UDF Documentation**: [Android - Unidirectional Data Flow](https://developer.android.com/jetpack/guide/ui-layer/stateholders)
 - **State Management**: [Android - State holders and UI state](https://developer.android.com/jetpack/guide/ui-layer/stateholders)
+- **Philipp Lackner's State Management**: [YouTube - State Management in Compose](https://www.youtube.com/watch?v=9sqvBydNJSg)
+- **Root-Content Pattern**: [GitHub - State Management Real World](https://github.com/philipplackner/JetpackComposeMasterclass/tree/3-StateManagement/StateManagementRealWorld)
 
 ## 📦 **Module Strategy & Examples**
 
@@ -41,6 +45,8 @@ This document provides a comprehensive collection of references, learning resour
 ### **Jetpack Compose**
 - **Compose Performance**: [Android - Jetpack Compose Performance](https://developer.android.com/jetpack/compose/performance)
 - **Compose Mental Model**: [Android - Thinking in Compose](https://developer.android.com/jetpack/compose/mental-model)
+- **Philipp Lackner's Compose Tutorials**: [YouTube - Jetpack Compose Masterclass](https://www.youtube.com/@PhilippLackner)
+- **Philipp Lackner's Compose Repository**: [GitHub - Jetpack Compose Masterclass](https://github.com/philipplackner/JetpackComposeMasterclass)
 
 ### **Testing**
 - **Android Testing Documentation**: [Android - Testing Documentation](https://developer.android.com/training/testing)
@@ -49,6 +55,8 @@ This document provides a comprehensive collection of references, learning resour
 ### **Learning Resources**
 - **Kotlin Playground**: [Kotlin - Playground Tour](https://play.kotlinlang.org/byExample/overview)
 - **Learn Kotlin for Android**: [Android - Learn Kotlin for Android](https://developer.android.com/kotlin/learn)
+- **Philipp Lackner's Learning Path**: [YouTube - Complete Android Development Course](https://www.youtube.com/@PhilippLackner)
+- **Philipp Lackner's GitHub**: [GitHub - Educational Projects](https://github.com/philipplackner)
 
 ## ⚙️ **Technology Stack Justification**
 
@@ -76,6 +84,7 @@ This document provides a comprehensive collection of references, learning resour
 ### **Build System**
 - **Gradle Convention Plugins**: [Gradle - Writing Convention Plugins](https://docs.gradle.org/current/userguide/custom_plugins.html#sec:convention_plugins)
 - **Now in Android Build Logic**: [GitHub - Now in Android Build Logic](https://github.com/android/nowinandroid/tree/main/build-logic)
+- **Philipp Lackner's Build System Tutorials**: [YouTube - Gradle & Build Configuration](https://www.youtube.com/@PhilippLackner)
 
 ## 📊 **Industry Research & Metrics**
 
@@ -95,16 +104,19 @@ This document provides a comprehensive collection of references, learning resour
 - **Kotlin Basics**: [Kotlin - Official Documentation](https://kotlinlang.org/docs/)
 - **Android Basics**: [Android - Learn Android & Kotlin from scratch](https://developer.android.com/courses/android-basics-kotlin/course)
 - **Compose Basics**: [Android - Compose Basics](https://developer.android.com/jetpack/compose/tutorial)
+- **Philipp Lackner's Beginner Series**: [YouTube - Android Development for Beginners](https://www.youtube.com/@PhilippLackner)
 
 ### **Intermediate Level**
 - **Architecture Patterns**: [Android - Guide to app architecture](https://developer.android.com/topic/architecture)
 - **Advanced Kotlin**: [Kotlin - Advanced Features](https://kotlinlang.org/docs/)
 - **Testing**: [Android - Testing Guide](https://developer.android.com/training/testing)
+- **Philipp Lackner's Intermediate Tutorials**: [YouTube - Clean Architecture & MVI](https://www.youtube.com/@PhilippLackner)
 
 ### **Advanced Level**
 - **Clean Architecture**: [Clean Architecture - Uncle Bob](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - **Performance Optimization**: [Android - Performance Best Practices](https://developer.android.com/topic/performance)
 - **Advanced Compose**: [Android - Advanced Compose](https://developer.android.com/jetpack/compose/advanced)
+- **Philipp Lackner's Advanced Content**: [YouTube - Advanced Android Development](https://www.youtube.com/@PhilippLackner)
 
 ## 🔍 **Research Methodology**
 
@@ -128,6 +140,7 @@ This document provides a comprehensive collection of references, learning resour
 - **Progress Gradually**: Move to intermediate and advanced topics
 - **Practice Hands-On**: Apply concepts in real projects
 - **Stay Updated**: Check for new resources regularly
+- **Follow Philipp Lackner's Learning Path**: Use his structured tutorials for comprehensive learning
 
 ### **For Contributors**
 - **Verify Sources**: Ensure all links are current and accurate

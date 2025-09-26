@@ -12,45 +12,91 @@ This document defines our module strategy, modularization approach, and how we b
 3. **Real-World Application**: Demonstrate industry best practices
 4. **Maintainable Structure**: Support long-term development and collaboration
 
-## 🏗️ **Module Architecture**
+## 🏗️ **Module Architecture** {#module-architecture}
 
-### **Industry Reference: Now in Android**
+### **Industry References**
+
+#### **Google's Now in Android**
 Google's official "Now in Android" sample app demonstrates the exact modular approach we're implementing ([GitHub Repository](https://github.com/android/nowinandroid)). It splits code into feature modules and core libraries, using Gradle convention plugins to apply common setup to each module. This encourages low coupling: feature modules don't see each other's internals, only the core abstractions they depend on.
+
+#### **Philipp Lackner's Educational Approach**
+[Philipp Lackner's YouTube Channel](https://www.youtube.com/@PhilippLackner) provides comprehensive tutorials on Clean Architecture + MVI implementation. His [Jetpack Compose Masterclass](https://github.com/philipplackner/JetpackComposeMasterclass/tree/3-StateManagement/StateManagementRealWorld) demonstrates real-world state management patterns and Root-Content pattern implementation.
+
+#### **Screenly App Implementation**
+The [Screenly app](https://github.com/apoorv-singh/Screenly) showcases a production-ready implementation of Clean Architecture + MVI with proper module structure, state management, and UI patterns. It demonstrates the Root-Content pattern for handling multiple ViewModels and events in a single screen.
+
+#### **Root-Content Pattern Implementation**
+Based on [Philipp Lackner's State Management video](https://www.youtube.com/watch?v=9sqvBydNJSg), the Root-Content pattern involves:
+- **Root Composable**: Handles ViewModel injection, state collection, and event handling
+- **Content Composable**: Pure UI component that receives state and action callbacks
+- **Separation of Concerns**: Root handles business logic, Content handles presentation
+- **Multiple ViewModels**: Root can manage multiple ViewModels and combine their states
+- **Event Handling**: Root processes events from ViewModels and handles side effects
 
 ### **High-Level Structure**
 ```
 AndroidCleanMVITemplate/
-├── app/                          # Main application module
-├── core/                         # Core business modules
-│   ├── domain/                   # Domain layer (pure Kotlin)
-│   ├── data/                     # Data layer (Android + Kotlin)
-│   ├── presentation/             # Presentation layer (Android + Compose)
-│   ├── database/                 # Database layer (Room)
-│   └── networking/               # Networking layer (Retrofit)
+├── app/                          # android.application.compose
 ├── build-logic/                  # Convention plugins
-└── gradle/                       # Gradle configuration
+│   └── convention/
+│       ├── src/main/java/        # Convention plugins
+│       └── src/test/             # Test for convention plugins
+├── core/                         # Core shared modules
+│   ├── database/                 # android.library + android.room
+│   ├── domain/                   # jvm.library (domain + util)
+│   ├── data/                     # android.library (repositories, network, storage)
+│   └── presentation/
+│       ├── designsystem/         # android.library
+│       └── ui/                   # android.library
+├── auth/                         # Feature module (SAMPLE - demonstrates structure)
+│   ├── data/                     # android.library
+│   ├── domain/                   # jvm.library
+│   └── presentation/             # android.feature.ui
+├── analytics/                    # Future analytics feature
+│   ├── data/                     # android.library
+│   ├── domain/                   # jvm.library
+│   └── presentation/             # android.feature.ui
+└── sonar/                        # Future code quality (SonarQube)
+    └── (structure to be defined)
 ```
 
-### **Module Dependencies**
+### **Module Dependencies** {#module-dependencies}
 ```
 app
-├── core:presentation
+├── core:presentation:ui
+├── core:presentation:designsystem
 ├── core:data
-└── core:domain
+├── core:domain
+├── core:database
+└── auth:presentation
 
-core:presentation
+core:presentation:ui
+├── core:presentation:designsystem
 ├── core:domain
 └── core:data
 
+core:presentation:designsystem
+└── core:domain
+
 core:data
 ├── core:domain
-├── core:database
-└── core:networking
+└── core:database
 
 core:database
 └── core:domain
 
-core:networking
+auth:presentation
+├── auth:domain
+├── auth:data
+├── core:presentation:ui
+└── core:presentation:designsystem
+
+auth:data
+├── auth:domain
+├── core:domain
+└── core:data
+
+auth:domain
 └── core:domain
 ```
 
@@ -92,7 +138,19 @@ core:networking
 **Size**: Large (data operations)
 **Complexity**: High
 
-### **4. Core:Presentation Module**
+### **4. Core:Presentation:DesignSystem Module**
+**Purpose**: Design system and UI components
+**Responsibilities**:
+- Design tokens (colors, typography, spacing)
+- Reusable UI components
+- Theme configuration
+- Material Design 3 implementation
+
+**Dependencies**: Domain
+**Size**: Medium (design system)
+**Complexity**: Medium
+
+### **5. Core:Presentation:UI Module**
 **Purpose**: UI layer and ViewModels
 **Responsibilities**:
 - ViewModels and UI state
@@ -100,11 +158,11 @@ core:networking
 - Navigation and routing
 - UI-specific logic
 
-**Dependencies**: Domain, Data
+**Dependencies**: DesignSystem, Domain, Data
 **Size**: Large (UI components)
 **Complexity**: High
 
-### **5. Core:Database Module**
+### **6. Core:Database Module**
 **Purpose**: Local data storage
 **Responsibilities**:
 - Room entities and DAOs
@@ -116,16 +174,16 @@ core:networking
 **Size**: Medium (database operations)
 **Complexity**: Medium
 
-### **6. Core:Networking Module**
-**Purpose**: Remote data access
+### **7. Auth Feature Module**
+**Purpose**: Authentication feature (Sample implementation)
 **Responsibilities**:
-- API service interfaces
-- DTOs and data models
-- Network configuration
-- Error handling
+- Login/Register functionality
+- User session management
+- Authentication UI
+- Demonstrates feature structure
 
-**Dependencies**: Domain
-**Size**: Medium (network operations)
+**Dependencies**: Core modules
+**Size**: Medium (authentication)
 **Complexity**: Medium
 
 ## 🎯 **Modularization Strategy**
@@ -285,5 +343,11 @@ core:networking
 2. **Implement Dependencies**: Set up module relationships
 3. **Create Examples**: Implement simple use cases
 4. **Document Progress**: Update documentation
+
+## 🚀 **Continue Reading**
+
+**Next Document**: [04-phase-1-development-standards.md](04-phase-1-development-standards.md) - Learn about our development standards, coding conventions, and quality practices.
+
+**Reading Flow**: Vision → Architecture Decisions → Module Strategy → Development Standards → Foundation → Implementation
 
 **This module strategy will guide our development and ensure we maintain the right balance between simplicity and best practices.**
