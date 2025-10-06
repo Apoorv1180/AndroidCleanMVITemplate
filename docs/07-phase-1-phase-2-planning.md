@@ -35,10 +35,11 @@ This document outlines the detailed planning for Phase 2: Module Strategy & Stru
 - [ ] `core:presentation:designsystem` module created (Android Library)
 - [ ] `core:presentation:ui` module created (Android Library)
 - [ ] `core:database` module created (Android Library)
-- [ ] `core:networking` module created (Android Library)
+ 
 
 **Implementation Details**:
-- **Use Android Studio's "New Module" wizard** - not manual directory creation
+- **Use Android Studio's "New Module" wizard** - not manual directory creation , Switch to Project view and click on root module.
+- Hit New -> Module
 - **Choose correct module types**:
   - **Kotlin Library** for `core:domain` (pure Kotlin, no Android dependencies)
   - **Android Library** for all other modules
@@ -49,7 +50,7 @@ This document outlines the detailed planning for Phase 2: Module Strategy & Stru
   - `com.androidcleanmvitemplate.core.presentation.designsystem`
   - `com.androidcleanmvitemplate.core.presentation.ui`
   - `com.androidcleanmvitemplate.core.database`
-  - `com.androidcleanmvitemplate.core.networking`
+ 
 - **Let Gradle sync** after each module creation
 
 ### **Step 2: Configure Module Dependencies**
@@ -69,6 +70,15 @@ This document outlines the detailed planning for Phase 2: Module Strategy & Stru
 - Use `implementation project(":core:domain")` for module references
 - Enable type-safe project accessors in `settings.gradle.kts`
 - Follow Clean Architecture dependency flow: UI → Domain ← Data
+
+**Networking Strategy (Default Approach):**
+- Keep networking (API interfaces, DTOs, Retrofit services, remote data sources) inside each feature's `:data` module (e.g., `auth:data`).
+- This is the recommended default structure for most projects.
+
+**Evolution Path (When Needed):**
+- If multiple features share identical client plumbing (interceptors, auth refresh, error handling), consider extracting a shared client-only module later (e.g., `core:networking`) for Retrofit/OkHttp setup only.
+- **Never extract feature-specific APIs/DTOs into core** - keep them in feature modules.
+- **Example evolution**: Start with `auth:data` containing auth APIs, then extract shared client to `core:networking` if auth and user features need identical networking setup.
 
 ### **Step 3: Implement Basic Examples**
 **Duration**: 3-4 days
@@ -116,12 +126,23 @@ core/database/src/main/kotlin/com/androidcleanmvitemplate/core/database/
 ├── entities/
 ├── daos/
 └── database/
-
-core/networking/src/main/kotlin/com/androidcleanmvitemplate/core/networking/
-├── api/
-├── dto/
-└── interceptors/
 ```
+
+### **Module Responsibilities and Rationale**
+- **core:domain**: Pure Kotlin business rules shared across the app. No external or Android dependencies. Reason: enforce clean boundaries and reuse business logic everywhere.
+- **core:data**: Shared data utilities (only if truly shared), such as common mappers or data policies. Reason: avoid duplication across features; keep feature data orchestration in feature modules.
+- **core:presentation** (+ `designsystem`, `ui`): Shared UI toolkit and design system. Reason: provide consistent UI components and utilities across features.
+- **core:database**: Central Room setup (DB, DAOs, entities, migrations) and DB utilities reused by multiple features. Reason: persistence is cross-cutting and benefits from a single source of truth.
+- **feature:domain** (e.g., `auth:domain`): Feature-specific business contracts (use cases, models, repositories). Reason: isolate feature business rules and enable independent evolution/testing.
+- **feature:data** (e.g., `auth:data`) — includes networking:
+  - Orchestrates local (database) and remote (network) sources.
+  - Contains repositories, data sources, DTOs, API services, and mappers to domain.
+  - Reason: keep feature data logic cohesive and scoped to the feature; avoids premature cross-feature coupling.
+- **feature:presentation** (e.g., `auth:presentation`): Compose UI, ViewModels, navigation. Reason: keep UI concerns separate and depend only on `feature:domain` (and sometimes `core:presentation`).
+
+Difference between data module and database module:
+- **Database module**: Owns the persistence mechanism (Room DB, DAOs, entities, migrations) and shared DB utilities. It does not orchestrate feature logic.
+- **Data module**: Owns feature data orchestration (repositories, local/remote data sources, mappers). It consumes the database module and networking, translating to/from domain.
 
 ## 📊 **Detailed Implementation Steps**
 
@@ -139,7 +160,6 @@ core/networking/src/main/kotlin/com/androidcleanmvitemplate/core/networking/
    - `core:presentation:designsystem` (Android Library)
    - `core:presentation:ui` (Android Library)
    - `core:database` (Android Library)
-   - `core:networking` (Android Library)
 
 ### **Day 2: Domain Module**
 1. **Create Domain Entities**
@@ -195,10 +215,10 @@ core/networking/src/main/kotlin/com/androidcleanmvitemplate/core/networking/
    - DAO interfaces (`UserDao`, `SampleDao`)
    - Database configuration
 
-2. **Networking Module**
-   - API service interfaces (`UserApi`, `SampleApi`)
-   - DTOs and models (`UserDto`, `SampleDto`)
-   - Network configuration
+2. **Networking in Feature Data**
+   - Implement API service interfaces inside the feature's `:data` module (e.g., `auth:data`)
+   - Define DTOs/models and remote data sources in `:data`
+   - Configure Retrofit/OkHttp within `:data` (or a shared client later if needed)
 
 3. **Integration**
    - Connect all modules
@@ -286,7 +306,6 @@ core/networking/src/main/kotlin/com/androidcleanmvitemplate/core/networking/
 - [ ] Create `core:presentation:designsystem` module (Android Library)
 - [ ] Create `core:presentation:ui` module (Android Library)
 - [ ] Create `core:database` module (Android Library)
-- [ ] Create `core:networking` module (Android Library)
 - [ ] Set proper package names for each module
 - [ ] Let Gradle sync after each creation
 
@@ -310,8 +329,8 @@ core/networking/src/main/kotlin/com/androidcleanmvitemplate/core/networking/
 
 ### **Database & Networking**
 - [ ] Create database entities (`UserEntity`, `SampleEntity`)
-- [ ] Implement API services (`UserApi`, `SampleApi`)
-- [ ] Configure networking
+ - [ ] Implement API services inside feature `:data` (e.g., `auth:data`)
+ - [ ] Configure Retrofit/OkHttp in feature `:data`
 - [ ] Test integration
 
 ### **Quality Assurance**
