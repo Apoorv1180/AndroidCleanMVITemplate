@@ -59,19 +59,49 @@ AndroidCleanMVITemplate/
 ```
 
 ### **Module Dependencies** {#module-dependencies}
+
+#### **Clean Architecture Dependency Rules:**
+- **Domain Layer**: No dependencies (pure business logic)
+- **Data Layer**: Can access Domain + Database
+- **Presentation Layer**: Can access Domain + other Presentation modules
+- **App Layer**: Orchestrates all modules
+
+#### **Dependency Matrix:**
+| Module | core:domain | core:data | core:database | core:presentation:designsystem | core:presentation:ui | app |
+|--------|-------------|-----------|---------------|--------------------------------|---------------------|-----|
+| **core:domain** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **core:data** | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| **core:database** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **core:presentation:designsystem** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **core:presentation:ui** | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| **app** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+
+#### **Dependency Flow:**
+```
+core:domain (no dependencies)
+    ↑
+    │
+    ├── core:database
+    ├── core:data ──→ core:database
+    ├── core:presentation:designsystem
+    └── core:presentation:ui ──→ core:presentation:designsystem
+                                    ↑
+                                    │
+                                app (depends on ALL)
+```
+
+#### **Detailed Dependency Tree:**
 ```
 app
 ├── core:presentation:ui
 ├── core:presentation:designsystem
 ├── core:data
 ├── core:domain
-├── core:database
-└── auth:presentation
+└── core:database
 
 core:presentation:ui
 ├── core:presentation:designsystem
-├── core:domain
-└── core:data
+└── core:domain
 
 core:presentation:designsystem
 └── core:domain
@@ -83,19 +113,8 @@ core:data
 core:database
 └── core:domain
 
-auth:presentation
-├── auth:domain
-├── auth:data
-├── core:presentation:ui
-└── core:presentation:designsystem
-
-auth:data
-├── auth:domain
-├── core:domain
-└── core:data
-
-auth:domain
-└── core:domain
+core:domain
+└── (no dependencies)
 ```
 
 ## 📊 **Detailed Module Breakdown**

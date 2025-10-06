@@ -44,6 +44,44 @@ We will use **Clean Architecture** combined with **MVI (Model-View-Intent)** pat
   - **Implementation**: Creating simple ViewModels with state management
   - **Why**: Establishes foundation for separation of concerns
   - **Application**: Building basic screens with proper state handling
+
+### **5. Module Dependency Structure**
+
+#### **Clean Architecture Dependency Rules:**
+- **Domain Layer**: No dependencies (pure business logic)
+- **Data Layer**: Can access Domain + Database
+- **Presentation Layer**: Can access Domain + other Presentation modules
+- **App Layer**: Orchestrates all modules
+
+#### **Dependency Matrix:**
+| Module | core:domain | core:data | core:database | core:presentation:designsystem | core:presentation:ui | app |
+|--------|-------------|-----------|---------------|--------------------------------|---------------------|-----|
+| **core:domain** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **core:data** | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| **core:database** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **core:presentation:designsystem** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **core:presentation:ui** | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+| **app** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+
+#### **Dependency Flow:**
+```
+core:domain (no dependencies)
+    ↑
+    │
+    ├── core:database
+    ├── core:data ──→ core:database
+    ├── core:presentation:designsystem
+    └── core:presentation:ui ──→ core:presentation:designsystem
+                                    ↑
+                                    │
+                                app (depends on ALL)
+```
+
+#### **Key Principles:**
+- **Dependencies flow INWARD** toward Domain
+- **NO circular dependencies**
+- **Clear separation of concerns**
+- **Testable and maintainable structure**
 - **Intermediate Level**:
   - **Concepts**: Implementing MVI pattern with Actions, States, and Events
   - **Implementation**: Creating use cases and repository patterns
