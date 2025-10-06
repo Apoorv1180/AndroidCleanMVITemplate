@@ -90,11 +90,13 @@ This document outlines the detailed planning for Phase 2: Module Strategy & Stru
 - [ ] Basic UI components
 
 **Example Implementation**:
-- **Domain**: `User`, `Sample`, `UserRepository`, `SampleRepository`, `GetUserUseCase`, `GetAllSamplesUseCase`
-- **Data**: `UserRepositoryImpl`, `SampleRepositoryImpl`, `UserDataSource`, `SampleDataSource`
-- **Presentation**: `UserViewModel`, `SampleViewModel`, `UserScreen`, `SampleScreen`
-- **Database**: `UserEntity`, `SampleEntity`, `UserDao`, `SampleDao`
-- **Networking**: `UserApi`, `SampleApi`, `UserDto`, `SampleDto`
+- **core:domain**: `DataError`, `Result`, `Error` (util/), networking contracts (networking/)
+- **core:data**: `HttpClientFactory`, `AccessTokenRequest`, networking utilities (networking/)
+- **core:database**: `UserEntity`, `SampleEntity` (entity/), `UserDao`, `SampleDao` (dao/), `UserMappers` (mappers/)
+- **core:presentation:designsystem**: `RuniqueButton`, `RuniqueTextField` (components/)
+- **core:presentation:ui**: `DataErrorToText`, `RunDataFormatters` (root level)
+- **feature:data**: `UserRepositoryImpl`, `UserApi`, `UserDto` (networking inside feature)
+- **feature:presentation**: `UserViewModel`, `UserScreen`
 
 ### **Step 4: Establish Module Boundaries**
 **Duration**: 1-2 days
@@ -107,32 +109,30 @@ This document outlines the detailed planning for Phase 2: Module Strategy & Stru
 **Package Structure**:
 ```
 core/domain/src/main/kotlin/com/androidcleanmvitemplate/core/domain/
-├── entities/
-├── repositories/
-├── usecases/
-└── exceptions/
+├── networking/
+└── util/
 
 core/data/src/main/kotlin/com/androidcleanmvitemplate/core/data/
-├── repositories/
-├── datasources/
-└── mappers/
+└── networking/
 
-core/presentation/src/main/kotlin/com/androidcleanmvitemplate/core/presentation/
-├── viewmodels/
-├── ui/
-└── events/
+core/presentation/designsystem/src/main/kotlin/com/androidcleanmvitemplate/core/presentation/designsystem/
+└── components/
+
+core/presentation/ui/src/main/kotlin/com/androidcleanmvitemplate/core/presentation/ui/
+└── (root level files)
 
 core/database/src/main/kotlin/com/androidcleanmvitemplate/core/database/
-├── entities/
-├── daos/
-└── database/
+├── dao/
+├── entity/
+└── mappers/
 ```
 
 ### **Module Responsibilities and Rationale**
-- **core:domain**: Pure Kotlin business rules shared across the app. No external or Android dependencies. Reason: enforce clean boundaries and reuse business logic everywhere.
-- **core:data**: Shared data utilities (only if truly shared), such as common mappers or data policies. Reason: avoid duplication across features; keep feature data orchestration in feature modules.
-- **core:presentation** (+ `designsystem`, `ui`): Shared UI toolkit and design system. Reason: provide consistent UI components and utilities across features.
-- **core:database**: Central Room setup (DB, DAOs, entities, migrations) and DB utilities reused by multiple features. Reason: persistence is cross-cutting and benefits from a single source of truth.
+- **core:domain**: Shared domain utilities (`networking/`, `util/`) - networking contracts, error handling, result types. Reason: enforce clean boundaries and reuse business logic everywhere.
+- **core:data**: Shared networking implementation (`networking/`) - HTTP client setup, interceptors, common networking utilities. Reason: avoid duplication across features; keep feature-specific networking in feature modules.
+- **core:presentation:designsystem**: Shared UI components (`components/`) - reusable design system components. Reason: provide consistent UI components across features.
+- **core:presentation:ui**: Shared UI utilities (root level) - formatters, extensions, common UI helpers. Reason: provide consistent UI utilities across features.
+- **core:database**: Central Room setup (`dao/`, `entity/`, `mappers/`) - shared database entities, DAOs, and mappers. Reason: persistence is cross-cutting and benefits from a single source of truth.
 - **feature:domain** (e.g., `auth:domain`): Feature-specific business contracts (use cases, models, repositories). Reason: isolate feature business rules and enable independent evolution/testing.
 - **feature:data** (e.g., `auth:data`) — includes networking:
   - Orchestrates local (database) and remote (network) sources.
@@ -141,7 +141,7 @@ core/database/src/main/kotlin/com/androidcleanmvitemplate/core/database/
 - **feature:presentation** (e.g., `auth:presentation`): Compose UI, ViewModels, navigation. Reason: keep UI concerns separate and depend only on `feature:domain` (and sometimes `core:presentation`).
 
 Difference between data module and database module:
-- **Database module**: Owns the persistence mechanism (Room DB, DAOs, entities, migrations) and shared DB utilities. It does not orchestrate feature logic.
+- **Database module**: Owns the persistence mechanism (Room DB, DAOs, entities, mappers) and shared DB utilities. It does not orchestrate feature logic.
 - **Data module**: Owns feature data orchestration (repositories, local/remote data sources, mappers). It consumes the database module and networking, translating to/from domain.
 
 ## 📊 **Detailed Implementation Steps**
@@ -309,29 +309,26 @@ Difference between data module and database module:
 - [ ] Set proper package names for each module
 - [ ] Let Gradle sync after each creation
 
-### **Domain Module**
-- [ ] Create domain entities (`User`, `Sample`)
-- [ ] Implement use cases (`GetUserUseCase`, `GetAllSamplesUseCase`)
-- [ ] Define repository interfaces (`UserRepository`, `SampleRepository`)
-- [ ] Add domain-specific exceptions
+### **Core Domain Module**
+- [ ] Create shared utilities (`DataError`, `Result`, `Error` in util/)
+- [ ] Create networking contracts (networking/)
+- [ ] Add domain-specific utilities
 
-### **Data Module**
-- [ ] Implement repository (`UserRepositoryImpl`, `SampleRepositoryImpl`)
-- [ ] Create data sources (`UserDataSource`, `SampleDataSource`)
-- [ ] Add data mapping
-- [ ] Configure dependencies
+### **Core Data Module**
+- [ ] Implement shared networking (`HttpClientFactory`, `AccessTokenRequest` in networking/)
+- [ ] Create common networking utilities
+- [ ] Configure shared dependencies
 
-### **Presentation Module**
-- [ ] Create ViewModels (`UserViewModel`, `SampleViewModel`)
-- [ ] Implement UI components (`UserScreen`, `SampleScreen`)
-- [ ] Add navigation
-- [ ] Handle user interactions
+### **Core Presentation Modules**
+- [ ] Create design system components (`RuniqueButton`, `RuniqueTextField` in components/)
+- [ ] Implement shared UI utilities (`DataErrorToText`, `RunDataFormatters` in root)
+- [ ] Add common UI helpers
 
-### **Database & Networking**
-- [ ] Create database entities (`UserEntity`, `SampleEntity`)
- - [ ] Implement API services inside feature `:data` (e.g., `auth:data`)
- - [ ] Configure Retrofit/OkHttp in feature `:data`
-- [ ] Test integration
+### **Core Database Module**
+- [ ] Create database entities (`UserEntity`, `SampleEntity` in entity/)
+- [ ] Implement DAOs (`UserDao`, `SampleDao` in dao/)
+- [ ] Create mappers (`UserMappers` in mappers/)
+- [ ] Configure Room database
 
 ### **Quality Assurance**
 - [ ] Test all modules
