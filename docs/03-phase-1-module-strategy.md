@@ -22,8 +22,6 @@ Google's official "Now in Android" sample app demonstrates the exact modular app
 #### **Philipp Lackner's Educational Approach**
 [Philipp Lackner's YouTube Channel](https://www.youtube.com/@PhilippLackner) provides comprehensive tutorials on Clean Architecture + MVI implementation. His [Jetpack Compose Masterclass](https://github.com/philipplackner/JetpackComposeMasterclass/tree/3-StateManagement/StateManagementRealWorld) demonstrates real-world state management patterns and Root-Content pattern implementation.
 
-#### **Screenly App Implementation**
-The [Screenly app](https://github.com/apoorv-singh/Screenly) showcases a production-ready implementation of Clean Architecture + MVI with proper module structure, state management, and UI patterns. It demonstrates the Root-Content pattern for handling multiple ViewModels and events in a single screen.
 
 #### **Root-Content Pattern Implementation**
 Based on [Philipp Lackner's State Management video](https://www.youtube.com/watch?v=9sqvBydNJSg), the Root-Content pattern involves:
@@ -115,34 +113,33 @@ auth:domain
 **Complexity**: Low
 
 ### **2. Core:Domain Module**
-**Purpose**: Business logic and entities
+**Purpose**: Shared domain utilities and networking contracts
 **Responsibilities**:
-- Domain entities and models
-- Use cases and business rules
-- Repository interfaces
-- Domain-specific exceptions
+- Shared networking contracts and interfaces (networking/)
+- Common utilities like DataError, Result, Error (util/)
+- Domain-specific utilities and helpers
 
 **Dependencies**: None (pure Kotlin)
-**Size**: Medium (business logic)
-**Complexity**: Medium
+**Size**: Small (shared utilities)
+**Complexity**: Low
 
 ### **3. Core:Data Module**
-**Purpose**: Data access and repository implementation
+**Purpose**: Shared networking implementation and data utilities
 **Responsibilities**:
-- Repository implementations
-- Data source interfaces
-- Data mappers and transformers
-- Caching and synchronization
+- Shared networking implementation (networking/)
+- HTTP client setup and configuration
+- Common networking utilities and interceptors
+- Shared data utilities (only if truly shared)
 
-**Dependencies**: Domain, Database, Networking
-**Size**: Large (data operations)
-**Complexity**: High
+**Dependencies**: Domain
+**Size**: Small (shared networking)
+**Complexity**: Low
 
 ### **4. Core:Presentation:DesignSystem Module**
 **Purpose**: Design system and UI components
 **Responsibilities**:
+- Reusable UI components (components/)
 - Design tokens (colors, typography, spacing)
-- Reusable UI components
 - Theme configuration
 - Material Design 3 implementation
 
@@ -151,24 +148,24 @@ auth:domain
 **Complexity**: Medium
 
 ### **5. Core:Presentation:UI Module**
-**Purpose**: UI layer and ViewModels
+**Purpose**: Shared UI utilities and helpers
 **Responsibilities**:
-- ViewModels and UI state
-- Compose UI components
-- Navigation and routing
-- UI-specific logic
+- Shared UI utilities (root level)
+- Data formatters and extensions
+- Common UI helpers and extensions
+- UI-specific utilities
 
-**Dependencies**: DesignSystem, Domain, Data
-**Size**: Large (UI components)
-**Complexity**: High
+**Dependencies**: DesignSystem, Domain
+**Size**: Small (UI utilities)
+**Complexity**: Low
 
 ### **6. Core:Database Module**
 **Purpose**: Local data storage
 **Responsibilities**:
-- Room entities and DAOs
-- Database migrations
-- Local data models
-- Database configuration
+- Room entities (entity/)
+- DAOs (dao/)
+- Database mappers (mappers/)
+- Database configuration and migrations
 
 **Dependencies**: Domain
 **Size**: Medium (database operations)

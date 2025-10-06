@@ -30,11 +30,11 @@ This phase focuses on creating the module structure and basic configuration for 
 *Reference: [Master Checklist](../CHECKLIST.md) items 5-8, 21-24, 49-52*
 
 ## Modules to Create
-- `core:domain` - Domain layer (entities, use cases, repositories)
-- `core:data` - Data layer (repositories implementation, data sources)
-- `core:presentation` - Presentation layer (ViewModels, UI state)
-- `core:database` - Database layer (Room entities, DAOs)
-- `core:networking` - Networking layer (API services, DTOs)
+- `core:domain` - Shared domain utilities (networking contracts, util classes)
+- `core:data` - Shared networking implementation (HTTP client setup)
+- `core:presentation:designsystem` - Design system components
+- `core:presentation:ui` - Shared UI utilities and helpers
+- `core:database` - Database layer (Room entities, DAOs, mappers)
 
 ## Success Criteria
 - All core modules created and configured
