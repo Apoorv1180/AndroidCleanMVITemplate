@@ -1,0 +1,20 @@
+# Build Logic Module - Git Ignore
+# This file ensures that build artifacts from the build-logic module
+# are not committed to version control
+
+# Gradle build artifacts
+build/
+.gradle/
+
+# IDE files
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+

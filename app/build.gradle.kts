@@ -1,39 +1,25 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    // Apply our custom Android Application convention plugin
+    // This replaces manual android {} configuration with standardized settings
+    alias(libs.plugins.androidcleanmvitemplate.android.application)
+    
+    // Keep Compose plugin as it's specific to this module
     alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.androidcleanmvitemplate"
-    compileSdk = 36
-
+    
+    // Application-specific configuration
     defaultConfig {
         applicationId = "com.androidcleanmvitemplate"
-        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-    kotlin {
-        jvmToolchain(21)
-    }
+    
+    // Compose-specific configuration
     buildFeatures {
         compose = true
     }

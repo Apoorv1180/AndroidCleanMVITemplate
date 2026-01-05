@@ -1,6 +1,6 @@
 [versions]
 agp = "8.13.0"
-kotlin = "2.2.20"
+kotlin = "2.0.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -24,10 +24,22 @@ hiltNavigationCompose = "1.3.0"
 # Database
 room = "2.8.1"
 
+# Build Tools
+ksp = "2.0.21-1.0.28"
+
 # Utilities
 timber = "5.0.1"
 coil = "2.7.0"
 kotlinxCoroutines = "1.10.2"
+desugarJdkLibs = "2.1.4"
+
+# Project versions
+projectApplicationId = "com.androidcleanmvitemplate"
+projectVersionName = "1.0"
+projectMinSdkVersion = "26"
+projectTargetSdkVersion = "36"
+projectCompileSdkVersion = "36"
+projectVersionCode = "1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -69,6 +81,14 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+
+# Gradle Build Logic Dependencies
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+android-tools-common = { group = "com.android.tools", name = "common", version = "31.1.0" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -82,4 +102,8 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 # Room
 room = { id = "androidx.room", version.ref = "room" }
+
+# Convention Plugins
+androidcleanmvitemplate-android-application = { id = "com.androidcleanmvitemplate.buildlogic.android.application" }
+androidcleanmvitemplate-android-library = { id = "com.androidcleanmvitemplate.buildlogic.android.library" }
 

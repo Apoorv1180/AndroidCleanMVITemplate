@@ -103,6 +103,17 @@ Desktop.ini
 .cursorignore
 .cursorrules
 
+# Git strategy and planning documents (local reference only)
+GIT_PUSH_STRATEGY.md
+PUSH_ACTION_PLAN.md
+BRANCH_COMMIT_REFERENCE.md
+COMMIT_AND_PUSH.ps1
+COMMIT_AND_PUSH.sh
+MANUAL_COMMIT_STEPS.md
+NEXT_STEPS.md
+BUILD_VERIFICATION.md
+STEP_*.md
+
 # Temporary files
 *.tmp
 *.temp
